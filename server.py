@@ -18,6 +18,8 @@ try:
     FICHERO= sys.rgv[3]
 except Exception:
     sys.exit('Usage: python server.py IP port audio_file')
+if not os.path.exists(FICHERO):
+    sys.exit('Usage: python server.py IP port audio_file')
 
 class EchoHandler(socketserver.DatagramRequestHandler):
 
