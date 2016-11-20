@@ -37,6 +37,6 @@ if rec_invite == ['SIP/2.0 100 Trying', 'SIP/2.0 180 Ring', 'SIP/2.0 200 OK']:
     my_socket.send(bytes(LINE_ACK, 'utf-8') + b'\r\n')
     data = my_socket.recv(1024)
 
-# Cerramos todo
+# Cierre
 my_socket.close()
 print("Fin.")
