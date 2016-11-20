@@ -16,30 +16,28 @@ try:
     IP_SERV = sys.argv[1]
     PORT_SERV = int(sys.argv[2])
     FICHERO= sys.rgv[3]
+except Exception:
+    sys.exit('Usage: python server.py IP port audio_file')
 
 class EchoHandler(socketserver.DatagramRequestHandler):
-    """
-    Echo server class
-    """
 
-    metodo = line.decode('utf-8').split(' ')[0]
     METODOS = ['INVITE','BYE','ACK']
+
     def handle(self):
-        # Escribe dirección y puerto del cliente (de tupla client_address)
-        self.wfile.write(b"Hemos recibido tu peticion")
+       
         while 1:
             # Leyendo línea a línea lo que nos envía el cliente
             line = self.rfile.read()
-            print("El cliente nos manda " + line.decode('utf-8'))
-
-            # Si no hay más líneas salimos del bucle infinito
+           
             if not line:
                 break
-            if not metodo in METODOS:
+            metodo = line.decode('utf-8').split(' ')[0]
+            if not metodo in self.METODOS:
                 self.wfile.write(b'SIP/2.0 405 Method Not Allowed \r\n\r\n')
-            elif metodo = 'INVITE':
-                send = b'SIP/2.0 100 Trying\r\n\r\nSIP/2.0 100 Trying\r\n\r\n'+
-                      +b'SIP/2.0 100 Trying\r\n\r\n'
+            elif metodo == 'INVITE':
+                send = b'SIP/2.0 100 Trying\r\n\r\n
+                send += b'SIP/2.0 180 Ring\r\n\r\n'
+                send += b'SIP/2.0 200 OK\r\n\r\n'
                 self.wfile.write(send)
             elif metodo = 'ACK':
                 Ejecuta = 'mp32rtp -i 127.0.0.1 -p 23032 < ' + FICHERO
