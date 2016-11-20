@@ -15,22 +15,21 @@ if len(sys.argv) != 4:
 try:
     IP_SERV = sys.argv[1]
     PORT_SERV = int(sys.argv[2])
-    FICHERO= sys.rgv[3]
+    FICHERO = sys.rgv[3]
 except Exception:
     sys.exit('Usage: python server.py IP port audio_file')
 if not os.path.exists(FICHERO):
     sys.exit('Usage: python server.py IP port audio_file')
 
+
 class EchoHandler(socketserver.DatagramRequestHandler):
 
-    METODOS = ['INVITE','BYE','ACK']
+    METODOS = ['INVITE', 'BYE', 'ACK']
 
     def handle(self):
-       
         while 1:
             # Leyendo línea a línea lo que nos envía el cliente
             line = self.rfile.read()
-           
             if not line:
                 break
             metodo = line.decode('utf-8').split(' ')[0]
@@ -42,9 +41,9 @@ class EchoHandler(socketserver.DatagramRequestHandler):
                 send += b'SIP/2.0 200 OK\r\n\r\n'
                 self.wfile.write(send)
             elif metodo = 'ACK':
-                Ejecuta = 'mp32rtp -i 127.0.0.1 -p 23032 < ' + FICHERO
+                Ejecuta = '/mp32rtp -i 127.0.0.1 -p 23032 < ' + FICHERO
                 print('Vamos a ejecutar', Ejecuta)
-                os.systema(Ejecuta)
+                os.system(Ejecuta)
             elif metodo = 'BYE':
                 self.wfile.write(b'SIP/2.0 200 OK\r\n\r\n')
             else:
