@@ -11,11 +11,13 @@ import os
 
 if len(sys.argv) != 4:
     sys.exit('Usage: python server.py IP port audio_file')
+elif sys.argv[3][-4:] != ".mp3":
+    sys.exit('Usage: python server.py IP port audio_file')
 
 try:
     IP_SERV = sys.argv[1]
     PORT_SERV = int(sys.argv[2])
-    FICHERO = sys.rgv[3]
+    FICHERO = sys.argv[3]
 except Exception:
     sys.exit('Usage: python server.py IP port audio_file')
 if not os.path.exists(FICHERO):
@@ -23,7 +25,6 @@ if not os.path.exists(FICHERO):
 
 
 class EchoHandler(socketserver.DatagramRequestHandler):
-
     METODOS = ['INVITE', 'BYE', 'ACK']
 
     def handle(self):
@@ -48,7 +49,6 @@ class EchoHandler(socketserver.DatagramRequestHandler):
                 self.wfile.write(b'SIP/2.0 200 OK\r\n\r\n')
             else:
                 self.wfile.write(b'SIP/2.0 400 Bad request\r\n\r\n')
-
 if __name__ == "__main__":
     #Lanzamos un servidor SIP
     serv = socketserver.UDPServer((IP_SERV, PORT_SERV), EchoHandler)
